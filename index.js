@@ -12,7 +12,7 @@ app.engine('html', twig.__express);
 app.set('views','views');
 
 // USE BODY-PARSER MIDDLEWARE
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded ({extended:false}));
 
 app.get('/', (req, res) => {
     // FETCH ALL THE POSTS FROM DATABASE
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     
 });
 
-// INSERTING POST
+// INSERTING POST INserting data using node MySQL.
 app.post('/', (req, res) => {
     const title = req.body.title;
     const content = req.body.content;
@@ -44,11 +44,11 @@ app.post('/', (req, res) => {
     });
 });
 
-// EDIT PAGE
+// EDIT PAGE Edit Selected data using node MySQL.
 app.get('/edit/:id', (req, res) => {
     const edit_postId = req.params.id;
     // FIND POST BY ID
-    connection.query('SELECT * FROM `posts` WHERE id=?',[edit_postId] , (err, results) => {
+    connection.query('SELECT * FROM `posts` WHERE id=1',[edit_postId] , (err, results) => {
         if (err) throw err;
         res.render('edit',{
             post:results[0]
@@ -56,13 +56,14 @@ app.get('/edit/:id', (req, res) => {
     });
 });
 
-// POST UPDATING
+// POST UPDATING data using node MySQL.
+
 app.post('/edit/:id', (req, res) => {
     const update_title = req.body.title;
     const update_content = req.body.content;
     const update_author_name = req.body.author_name;
     const userId = req.params.id;
-    connection.query('UPDATE `posts` SET title = ?, content = ?, author = ? WHERE id = ?', [update_title, update_content, update_author_name, userId], (err, results) => {
+    connection.query('UPDATE `posts` SET title = "testing data", content = "Testing Desc..", author = "Zakir" WHERE id = 1', [update_title, update_content, update_author_name, userId], (err, results) => {
         if (err) throw err;
         if(results.changedRows === 1){
             console.log('Post Updated');
@@ -71,9 +72,9 @@ app.post('/edit/:id', (req, res) => {
     });
 });
 
-// POST DELETING
+// POST DELETING data using node MySQL.
 app.get('/delete/:id', (req, res) => {
-    connection.query('DELETE FROM `posts` WHERE id = ?', [req.params.id], (err, results) => {
+    connection.query('DELETE FROM `posts` WHERE id = 1', [req.params.id], (err, results) => {
         if (err) throw err;
         res.redirect('/');
     });
